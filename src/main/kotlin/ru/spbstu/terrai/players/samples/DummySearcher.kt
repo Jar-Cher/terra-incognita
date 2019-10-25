@@ -43,6 +43,8 @@ class DummySearcher : AbstractPlayer() {
     }
 
     override fun setMoveResult(result: MoveResult) {
+        println((lastMove as? WalkMove)?.direction ?: "no move")
+        println(result.room)
         val newLocation = (lastMove as? WalkMove)?.let { it.direction + currentLocation } ?: currentLocation
         val room = result.room
         roomMap[newLocation] = room

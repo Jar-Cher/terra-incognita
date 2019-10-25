@@ -3,9 +3,9 @@ package ru.spbstu.terrai.players.samples
 import org.junit.Test
 import ru.spbstu.terrai.lab.Controller
 
-class DummySearcherTest : AbstractPlayerTest() {
+class VindictiveTest : AbstractPlayerTest() {
 
-    override fun createPlayer() = DummySearcher()
+    override fun createPlayer() = Vindictive()
 
     @Test
     fun testLab1() {

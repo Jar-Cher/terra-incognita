@@ -19,12 +19,13 @@ class Human : AbstractPlayer() {
     }
 
     override fun setMoveResult(result: MoveResult) {
+        println(result.room)
         println(result.status)
     }
 }
 
 fun main(args: Array<String>) {
-    val lab = Labyrinth.createFromFile("labyrinths/lab3.txt")
+    val lab = Labyrinth.createFromFile("labyrinths/labOLOLO.txt")
     val player = Human()
     val controller = Controller(lab, player)
     val result = controller.makeMoves(1000)
