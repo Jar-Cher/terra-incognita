@@ -6,6 +6,8 @@ class Vindictive : AbstractPlayer() {
 
     private lateinit var currentLocation: Location
 
+    private lateinit var initialLocation: Location
+
     private var lastMove: Move = WaitMove
 
     private var plan = ArrayList<Location>()
@@ -17,7 +19,7 @@ class Vindictive : AbstractPlayer() {
     private var exitFoundCurrentExperience = false
 
     // Исследованная местность с момента нашего последнего выхода из ЧД
-    private val currentExperience = mutableMapOf<Location, Room>()
+    private var currentExperience = mutableMapOf<Location, Room>()
 
     // Наши исследования местности, прерванные попаданиями в ЧД
     private val pastExperiences = ArrayList<MutableMap<Location, Room>>()
@@ -33,8 +35,9 @@ class Vindictive : AbstractPlayer() {
 
         super.setStartLocationAndSize(location, width, height)
         currentLocation = location
+        initialLocation = location
 
-        exitFoundCurrentExperience = false
+        currentExperience.clear()
 
         if (pastExperiences.size == 0)
             currentExperience[currentLocation] = Entrance
@@ -171,9 +174,64 @@ class Vindictive : AbstractPlayer() {
                 is Wormhole -> {
                     exitFoundCurrentExperience = false
                     plan.clear()
+
+                    if (pastExperiences.isNotEmpty()) {
+                        val copy1 = mutableMapOf<Location, Room>() + currentExperience
+                        pastExperiences.add(0, copy1 as MutableMap<Location, Room>)
+                    }
+
+                    if (pastExperiences.isEmpty()) {
+                        currentExperience = currentExperience.mapKeys {
+                            Location(
+                                    it.key.x + (width - 1 - newLocation.x),
+                                    it.key.y + (height - 1 - newLocation.y)
+                            )
+                        }.toMutableMap()
+                    }
+                    else {
+                        currentExperience = currentExperience.mapKeys {
+                            Location(
+                                    it.key.x + (initialLocation.x - newLocation.x),
+                                    it.key.y + (initialLocation.y - newLocation.y)
+                            )
+                        }.toMutableMap()
+                    }
+
+                    val copy2 = mutableMapOf<Location, Room>() + currentExperience
+                    pastExperiences.add(0, copy2 as MutableMap<Location, Room>)
+
+                    if (pastExperiences.size == 1)
+                        setStartLocationAndSize(
+                                Location(width - 1, height - 1),
+                                2 * width - 1,
+                                2 * height - 1
+                        )
+                    else
+                        setStartLocationAndSize(Location( (width + 1) / 2, (height + 1) / 2), width, height)
+
+                    val freshExp1 = pastExperiences[0]
+                    for (i in freshExp1) {
+                        if (reputations[i.key] == null)
+                            reputations[i.key] = mutableMapOf<Room, Int>()
+                        reputations[i.key]!![i.value] = reputations[i.key]?.get(i.value)?.plus(1) ?: 1
+                    }
+
+                    if (pastExperiences.size > 1) {
+                        val freshExp2 = pastExperiences[1]
+                        for (i in freshExp2) {
+                            if (reputations[i.key] == null)
+                                reputations[i.key] = mutableMapOf<Room, Int>()
+                            reputations[i.key]!![i.value] = reputations[i.key]?.get(i.value)?.plus(1) ?: 1
+                        }
+                    }
+                    print("")
                 }
             }
-            currentLocation = newLocation
+            when(room) {
+                !is Wormhole -> {
+                    currentLocation = newLocation
+                }
+            }
         }
         else
             plan.clear()
