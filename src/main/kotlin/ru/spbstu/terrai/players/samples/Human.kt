@@ -25,7 +25,7 @@ class Human : AbstractPlayer() {
 }
 
 fun main(args: Array<String>) {
-    val lab = Labyrinth.createFromFile("labyrinths/labOLOLO.txt")
+    val lab = Labyrinth.createFromFile("labyrinths/phobia1.txt")
     val player = Human()
     val controller = Controller(lab, player)
     val result = controller.makeMoves(1000)
