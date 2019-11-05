@@ -114,7 +114,7 @@ class Vindictive : AbstractPlayer() {
         var chosenLocation = if (targetLocations.isNotEmpty())
             targetLocations.first()
         else
-            return ArrayDeque<Location>()
+            return ArrayDeque()
 
         val ans = ArrayDeque<Location>()
 
@@ -140,22 +140,12 @@ class Vindictive : AbstractPlayer() {
                                     .all { (key, value) ->
                                         ((currentExperience[key] == value) or (key !in currentExperience)) } }
 
-                    /*var additionExperience = if (applicableExperiences.isEmpty())
-                        mutableSetOf<Pair<Location, Room>>()
-                    else
-                        applicableExperiences[0].toList().toSet()
-
-                    for (i in 1 until applicableExperiences.size) {
-                        val expIntoSet = applicableExperiences[i].toList().toSet()
-                        additionExperience = additionExperience.intersect(expIntoSet).toMutableSet()
-                    }*/
-
                     val reputations = mutableMapOf<Location, MutableMap<Room, Int>>()
 
                     for (i in applicableExperiences) {
                         for (j in i) {
                             if (reputations[j.key] == null)
-                                reputations[j.key] = mutableMapOf<Room, Int>()
+                                reputations[j.key] = mutableMapOf()
                             reputations[j.key]!![j.value] = reputations[j.key]?.get(j.value)?.plus(1) ?: 1
                         }
                     }
@@ -289,7 +279,6 @@ class Vindictive : AbstractPlayer() {
         lastMove = WalkMove((nextLocation - currentLocation).toDirection())
         return WalkMove((nextLocation - currentLocation).toDirection())
 
-        //throw IllegalArgumentException("Incorrect path to target location")
     }
 
     override fun setMoveResult(result: MoveResult) {
@@ -367,23 +356,6 @@ class Vindictive : AbstractPlayer() {
                     else
                         setStartLocationAndSize(Location( (width - 1) / 2, (height - 1) / 2), width, height)
 
-                    /*
-                    val freshExp1 = pastExperiences[0]
-                    for (i in freshExp1) {
-                        if (reputations[i.key] == null)
-                            reputations[i.key] = mutableMapOf<Room, Int>()
-                        reputations[i.key]!![i.value] = reputations[i.key]?.get(i.value)?.plus(1) ?: 1
-                    }
-
-                    if (pastExperiences.size > 1) {
-                        val freshExp2 = pastExperiences[1]
-                        for (i in freshExp2) {
-                            if (reputations[i.key] == null)
-                                reputations[i.key] = mutableMapOf<Room, Int>()
-                            reputations[i.key]!![i.value] = reputations[i.key]?.get(i.value)?.plus(1) ?: 1
-                        }
-                    }*/
-
                 }
             }
             when(room) {
@@ -394,7 +366,6 @@ class Vindictive : AbstractPlayer() {
         }
         else
             plan.clear()
-
 
     }
 }
