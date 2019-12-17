@@ -3,7 +3,7 @@ package ru.spbstu.terrai.lab
 import ru.spbstu.terrai.core.*
 import java.io.File
 
-class Labyrinth private constructor(val width: Int, val height: Int, private val map: Map<Location, Room>) {
+class Labyrinth private constructor(val width: Int, val height: Int, val map: Map<Location, Room>) {
 
     private val Location.isCorrect get() = x in 0..width - 1 && y in 0..height - 1
 
@@ -17,7 +17,7 @@ class Labyrinth private constructor(val width: Int, val height: Int, private val
 
     val exits: List<Location> = map.entries.filter { (_, room) -> room == Exit }.map { it.key }
 
-    val wormholeMap: Map<Location, Location> = mutableMapOf<Location, Location>().apply {
+    var wormholeMap: MutableMap<Location, Location> = mutableMapOf<Location, Location>().apply {
         for ((location, room) in map) {
             if (room is Wormhole) {
                 val nextRoom = room.next
