@@ -3,6 +3,8 @@ package ru.spbstu.terrai.players.samples
 import org.junit.Assert.assertEquals
 import ru.spbstu.terrai.core.Location
 import ru.spbstu.terrai.core.Player
+import ru.spbstu.terrai.core.Treasure
+import ru.spbstu.terrai.core.WithContent
 import ru.spbstu.terrai.lab.Controller
 import ru.spbstu.terrai.lab.Labyrinth
 
@@ -32,21 +34,28 @@ abstract class AbstractPlayerTest {
     }
 
     fun doFullTestLab(fileName: String, expectedResult: Controller.GameResult) {
-        var lab = Labyrinth.createFromFile(fileName)
-        val wormholesCopy = lab.wormholeMap.values.toList()
+        val wormholesCopy = Labyrinth.createFromFile(fileName).wormholeMap.values.toList()
+        //val treasures = lab.map.filter { (_, room) -> room == WithContent(Treasure)}.keys
         if (wormholesCopy.isEmpty())
             doTestLab(fileName, expectedResult)
         else {
-            val player = createPlayer()
             val first = wormholesCopy[0]
-            var possibleWormholeMaps = permutations(wormholesCopy.drop(1)) as List<List<Location>>
+            val possibleWormholeMaps = permutations(wormholesCopy.drop(1)) as List<List<Location>>
             for (i in possibleWormholeMaps) {
                 val newWormholeMap = mutableListOf<Location>()
                 newWormholeMap.add(first)
                 newWormholeMap.addAll(i)
-                for (j in newWormholeMap) {
-                    //lab.wormholeMap[j] = newWormholeMap[j]
-                }
+                val lab = Labyrinth.createFromFile(fileName)
+                /*for (j in treasures)
+                    lab.map[j] = WithContent(Treasure)*/
+                for (j in newWormholeMap.indices)
+                    lab.wormholeMap[newWormholeMap[j]] = newWormholeMap[(j + 1) % newWormholeMap.size]
+                val player = createPlayer()
+                val controller = Controller(lab, player)
+                println("\n\n")
+                println(lab.wormholeMap)
+                val actualResult = controller.makeMoves(500)
+                assertEquals(controller.playerPath.toString(), expectedResult.exitReached, actualResult.exitReached)
             }
         }
     }

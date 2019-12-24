@@ -13,6 +13,9 @@ class Labyrinth private constructor(val width: Int, val height: Int, val map: Ma
 
     operator fun get(x: Int, y: Int) = get(Location(x, y))
 
+    /*operator fun set(location: Location, room: Room) =
+            map[location] = room*/
+
     val entrances: List<Location> = map.entries.filter { (_, room) -> room == Entrance }.map { it.key }
 
     val exits: List<Location> = map.entries.filter { (_, room) -> room == Exit }.map { it.key }

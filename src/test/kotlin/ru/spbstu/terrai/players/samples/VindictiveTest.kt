@@ -17,8 +17,22 @@ class VindictiveTest : AbstractPlayerTest() {
     }
 
     @Test
+    fun testFullLab1() {
+        doFullTestLab("labyrinths/lab1.txt", Controller.GameResult(4, exitReached = true))
+        println("1-over")
+        println()
+    }
+
+    @Test
     fun testLab2() {
         doTestLab("labyrinths/lab2.txt", Controller.GameResult(34, exitReached = true))
+        println("2-over")
+        println()
+    }
+
+    @Test
+    fun testFullLab2() {
+        doFullTestLab("labyrinths/lab2.txt", Controller.GameResult(34, exitReached = true))
         println("2-over")
         println()
     }
@@ -31,8 +45,22 @@ class VindictiveTest : AbstractPlayerTest() {
     }
 
     @Test
+    fun testFullLab3() {
+        doFullTestLab("labyrinths/lab3.txt", Controller.GameResult(31, exitReached = true))
+        println("3-over")
+        println()
+    }
+
+    @Test
     fun testLab4() {
         doTestLab("labyrinths/lab4.txt", Controller.GameResult(83, exitReached = true))
+        println("4-over")
+        println()
+    }
+
+    @Test
+    fun testFullLab4() {
+        doFullTestLab("labyrinths/lab4.txt", Controller.GameResult(83, exitReached = true))
         println("4-over")
         println()
     }
@@ -45,6 +73,13 @@ class VindictiveTest : AbstractPlayerTest() {
     }
 
     @Test
+    fun testFullLab5() {
+        doFullTestLab("labyrinths/lab5.txt", Controller.GameResult(135, exitReached = true))
+        println("5-over")
+        println()
+    }
+
+    @Test
     fun testLab6() {
         doTestLab("labyrinths/lab6.txt", Controller.GameResult(198, exitReached = true))
         println("6-over")
@@ -52,8 +87,22 @@ class VindictiveTest : AbstractPlayerTest() {
     }
 
     @Test
+    fun testFullLab6() {
+        doFullTestLab("labyrinths/lab6.txt", Controller.GameResult(198, exitReached = true))
+        println("6-over")
+        println()
+    }
+
+    @Test
     fun testLab7() {
         doTestLab("labyrinths/lab7.txt", Controller.GameResult(59, exitReached = true))
+        println("7-over")
+        println()
+    }
+
+    @Test
+    fun testFullLab7() {
+        doFullTestLab("labyrinths/lab7.txt", Controller.GameResult(59, exitReached = true))
         println("7-over")
         println()
     }
@@ -89,6 +138,13 @@ class VindictiveTest : AbstractPlayerTest() {
     @Test
     fun testNightmare() {
         doTestLab("labyrinths/nightmare.txt", Controller.GameResult(83, exitReached = true))
+        println("nightmare-over")
+        println()
+    }
+
+    @Test
+    fun testFullNightmare() {
+        doFullTestLab("labyrinths/nightmare.txt", Controller.GameResult(83, exitReached = true))
         println("nightmare-over")
         println()
     }
